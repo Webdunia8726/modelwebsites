@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blur Color Effects</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+    }
+    .content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .effect {
+        display: none;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <div class="effect"></div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const effect = document.querySelector('.effect');
+
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            const color = getColorAtPosition(x, y);
+            effect.style.backgroundColor = color;
+            effect.style.opacity = '1'; // Show the effect
+            effect.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        document.addEventListener('mouseout', function() {
+            effect.style.opacity = '0'; // Hide the effect
+        });
+
+        function getColorAtPosition(x, y) {
+            const red = Math.round((x / window.innerWidth) * 255);
+            const green = Math.round((y / window.innerHeight) * 255);
+            const blue = Math.round((Math.abs(x - y) / window.innerWidth) * 255);
+            return `rgba(${red},${green},${blue}, 0.5)`; // Use rgba to include opacity
+        }
+    });
+</script>
+
+</body>
+</html>
